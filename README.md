@@ -63,7 +63,7 @@ totalSeats: {type: String},
 
 2. Seats start from 0
 
-3. Aisle Seats is arranged as:    012345     6789
+3. Aisle Seats is arranged as:    012345            6789
 
 # Future Scope
 
