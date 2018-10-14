@@ -31,7 +31,11 @@ exports.default = function (_ref) {
   var api = (0, _express.Router)();
 
   //Add a new Screen
-  //'api/v1/screens' authenticate, (req, res) =>
+  //'api/v1/screens'
+  // Storing theatre seats in form of matrix
+  // 0 and 9 for unreserved, 9 for aisle seats
+  // row is represented by array of numbers.
+  // controller converts seats info to array of number and store in database
   api.post('/', function (req, res) {
     var total = 0;
     var screen = new _screen2.default();
@@ -73,7 +77,9 @@ exports.default = function (_ref) {
   //Reserve
   //'api/v1/:name/reserve'
   api.post('/:name/reserve', function (req, res) {
-    _screen2.default.findOne({ name: req.params.name }, function (err, screen) {
+    _screen2.default.findOne({
+      name: req.params.name
+    }, function (err, screen) {
       if (err) {
         res.status(500);
         res.send(err);
@@ -130,7 +136,9 @@ exports.default = function (_ref) {
   //Get Available Seats
   //'/api/v1/:name/available'
   api.get('/:name/available', function (req, res) {
-    _screen2.default.findOne({ name: req.params.name }, function (err, screen) {
+    _screen2.default.findOne({
+      name: req.params.name
+    }, function (err, screen) {
       if (err) {
         res.status(500);
         res.send(err);
@@ -165,7 +173,9 @@ exports.default = function (_ref) {
     var num = Number(req.query.numSeats);
     var row = req.query.choice[0];
     var seatno = Number(req.query.choice[1]);
-    _screen2.default.findOne({ name: req.params.name }, function (err, screen) {
+    _screen2.default.findOne({
+      name: req.params.name
+    }, function (err, screen) {
       if (err) {
         console.log(err);
         res.status(500);
@@ -185,7 +195,6 @@ exports.default = function (_ref) {
         for (var j = 0; j < screen.rows.length; j++) {
           var arr = new Array();
           if (screen.rows[j].name == row) {
-            console.log(seatno + 1 - num);
             var lef = seatno + 1 - num >= 0 ? seatno + 1 - num : 0;
             var rig = seatno - 1 + num <= screen.rows[j].seats.length ? seatno - 1 + num : 0;
             while (rig - lef + 1 >= num) {
@@ -193,11 +202,12 @@ exports.default = function (_ref) {
               var no = 0;
               var ar = new Array();
               for (; y < lef + num; y++) {
-                if (screen.rows[j].seats[y] == 2 || screen.rows[j].seats[y] == 9 && no != num) break;
-                ar[no] = y;
-                console.log('1:' + ar);
-                no++;
-                console.log('No: ' + no);
+                if (screen.rows[j].seats[y] == 2 || screen.rows[j].seats[y] == 9 && !(no < num)) break;else {
+                  ar[no] = y;
+                  console.log('1:' + ar);
+                  no++;
+                  console.log('No: ' + no);
+                }
               }
               if (no == num) {
                 console.log('2:' + ar);
@@ -237,7 +247,9 @@ exports.default = function (_ref) {
   // Get Screen By Name
   // '/api/v1/screens/:id'
   api.get('/:name', function (req, res) {
-    _screen2.default.find({ name: req.params.name }, function (err, screen) {
+    _screen2.default.find({
+      name: req.params.name
+    }, function (err, screen) {
       if (err) {
         res.status(500);
         res.send(err);

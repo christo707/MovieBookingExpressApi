@@ -172,7 +172,6 @@ export default({config, db}) => {
         for (let j = 0; j < screen.rows.length; j++) {
           let arr = new Array();
           if (screen.rows[j].name == row) {
-            console.log((seatno + 1) - num);
             let lef = ((seatno + 1) - num) >= 0
               ? (seatno + 1) - num
               : 0;
@@ -184,12 +183,14 @@ export default({config, db}) => {
               let no = 0;
               let ar = new Array();
               for (; y < (lef + num); y++) {
-                if (screen.rows[j].seats[y] == 2 || (screen.rows[j].seats[y] == 9 && no != num))
+                if (screen.rows[j].seats[y] == 2 || (screen.rows[j].seats[y] == 9 && !(no < num)))
                   break;
+                else {
                 ar[no] = y;
                 console.log('1:' + ar);
                 no++;
                 console.log('No: ' + no);
+                }
               }
               if (no == num) {
                 console.log('2:' + ar);
