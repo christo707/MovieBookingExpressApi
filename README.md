@@ -30,9 +30,12 @@ totalSeats: {type: String},
  }
  
  # Saved every row of theatre as array of numbers
- 0: unreserved
- 9: unreserved and aisle row
- 2: booked
+
+0: unreserved
+
+9: unreserved and aisle row
+
+2: booked
  
  # Rest API Developed 
  
